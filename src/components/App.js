@@ -14,7 +14,6 @@ function App() {
       url: 'https://demo-iot-device-management.azurewebsites.net/api/devices',
     })
     .then(function (response) {
-      console.log('fetched',response.data)
       setData(response.data)
     })
     .catch(err => console.log(err))
@@ -24,7 +23,6 @@ function App() {
       url: 'https://demo-iot-device-management.azurewebsites.net/api/models',
     })
     .then(function (response) {
-      console.log(response.data)
       setModels(response.data)
     })
     .catch(err => console.log(err))
