@@ -4,15 +4,19 @@ import axios from 'axios';
 
 import FormDialog from './FormDialog';
 
-export default function table({ data , setData, onAdd }) {
+export default function table({ data , models, setData, onAdd }) {
+
+  const lookup = models.reduce(reducer,{});
 
   const columns = [
-    { title: 'Name', field: 'name' },
-    { title: 'Model', field: 'modelId' },
-    { title: 'Serial Number', field: 'serialNumber' }
+    { title: 'Name', field: 'name', filtering:false },
+    { 
+      title: 'Model', 
+      field: 'modelId',
+      lookup
+    },
+    { title: 'Serial Number', field: 'serialNumber', filtering:false }
   ];
-
-  console.log('data props', data)
 
     return (
       <MaterialTable
@@ -23,9 +27,9 @@ export default function table({ data , setData, onAdd }) {
         onRowUpdate: (newData, oldData) =>
           new Promise((resolve, reject) => {
             axios.put(`https://demo-iot-device-management.azurewebsites.net/api/devices/${oldData.id}`, {
-              name: oldData.name,
-              modelId: oldData.modelId,
-              serialNumber: oldData.serialNumber
+              name: newData.name,
+              modelId: newData.modelId,
+              serialNumber: newData.serialNumber
             })
             .then((response) => {
               if(response.data !== {}){
@@ -65,13 +69,20 @@ export default function table({ data , setData, onAdd }) {
           <div>
             <MTableToolbar {...props} />
             <div style={{padding: '0px 10px', display: "flex", flexDirection: "row",  justifyContent: 'flex-end',}}>
-              <FormDialog onAdd={onAdd}/>
+              <FormDialog onAdd={onAdd} models={models}/>
             </div>
           </div>
         ),
       }}
+      options={{
+        filtering: true
+      }}
     />
     )
+}
+
+const reducer = (accumulator, currentValue) => {
+  return {...accumulator, [currentValue.id]:currentValue.name};
 }
 
   
