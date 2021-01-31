@@ -1,16 +1,18 @@
 import MaterialTable, { MTableToolbar} from "material-table";
 import { tableIcons } from './tableIcons';
 import axios from 'axios';
-import FormDialog from './FormDialog';
-import { Directions } from "@material-ui/icons";
 
-export default function table({ data , setData}) {
+import FormDialog from './FormDialog';
+
+export default function table({ data , setData, onAdd }) {
 
   const columns = [
     { title: 'Name', field: 'name' },
     { title: 'Model', field: 'modelId' },
-    { title: 'Serial', field: 'serialNumber' }
+    { title: 'Serial Number', field: 'serialNumber' }
   ];
+
+  console.log('data props', data)
 
     return (
       <MaterialTable
@@ -63,7 +65,7 @@ export default function table({ data , setData}) {
           <div>
             <MTableToolbar {...props} />
             <div style={{padding: '0px 10px', display: "flex", flexDirection: "row",  justifyContent: 'flex-end',}}>
-              <FormDialog />
+              <FormDialog onAdd={onAdd}/>
             </div>
           </div>
         ),
