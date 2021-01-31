@@ -23,7 +23,7 @@ export default function Header(props){
             <AppBar position="fixed">
                 <Toolbar>
                   <Typography variant="h3">
-                    IOT device manager
+                    IoT devices
                   </Typography>
                 </Toolbar>
             </AppBar>
