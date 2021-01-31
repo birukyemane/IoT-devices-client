@@ -21,27 +21,12 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-function FormDialog({ onAdd }) {
+function FormDialog({ onAdd, models }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [models, setModels] = useState([]);
   const [modelId, setModelId] = useState('');
   const [name, setName] = useState('');
   const [serialNumber, setSerialNumber] = useState('');
-
-  useEffect(() => {
-    if(open && models.length === 0){
-        axios({
-            method: 'get',
-            url: 'https://demo-iot-device-management.azurewebsites.net/api/models',
-          })
-          .then(function (response) {
-            console.log(response.data)
-            setModels(response.data)
-          })
-          .catch(err => console.log(err))
-    }
-  }, [open, models.length]);
 
   const handleClickOpen = () => {
     setOpen(true);
