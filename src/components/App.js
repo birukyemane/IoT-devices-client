@@ -6,6 +6,7 @@ import Table from './ui/Table';
 
 function App() {
   const [data, setData] = useState( []);
+  const [models, setModels] = useState([]);
 
   useEffect(() => {
     axios({
@@ -15,6 +16,16 @@ function App() {
     .then(function (response) {
       console.log('fetched',response.data)
       setData(response.data)
+    })
+    .catch(err => console.log(err))
+
+    axios({
+      method: 'get',
+      url: 'https://demo-iot-device-management.azurewebsites.net/api/models',
+    })
+    .then(function (response) {
+      console.log(response.data)
+      setModels(response.data)
     })
     .catch(err => console.log(err))
   }, []);
@@ -43,7 +54,7 @@ function App() {
   return (
     <div>
         <Header />
-        <Table data={data} setData={setData} onAdd={handleAdd}/>
+        <Table data={data} setData={setData} models={models} onAdd={handleAdd}/>
     </div>
   );
 }
